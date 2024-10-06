@@ -80,19 +80,20 @@ int main()
 
     int result = ShowCustomMessageBox(message, title);
 
-    if (result == IDYES)
-    {
-      // system("start startApplication.bat");
-      ShellExecute(NULL, "open", "wscript.exe", "startApp.vbs", NULL, SW_HIDE);
-    }
-    else
+    if (result == IDNO)
     {
       HWND hwnd = FindWindow(NULL, "DSLRBooth"); // Replace with actual window title
       if (hwnd != NULL)
       {
         SendMessage(hwnd, WM_CLOSE, 0, 0);
       }
+      return 0;
     }
+
+    // -- DO MAIN LOGIC HERE --
+
+    // system("start startApplication.bat");
+    ShellExecute(NULL, "open", "wscript.exe", "startApp.vbs", NULL, SW_HIDE);
   }
 
   return 0;
