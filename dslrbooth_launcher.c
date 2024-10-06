@@ -40,6 +40,39 @@ int ShowCustomMessageBox(const char *message, const char *title)
   );
 }
 
+void killProcessInBackground(const char *processName)
+{
+  char command[100];
+  sprintf(command, "taskkill /f /im %s", processName);
+
+  STARTUPINFO si;
+  PROCESS_INFORMATION pi;
+
+  ZeroMemory(&si, sizeof(si));
+  si.cb = sizeof(si);
+  ZeroMemory(&pi, sizeof(pi));
+
+  if (CreateProcess(
+          NULL,           // No module name (use command line)
+          (LPSTR)command, // Command line
+          NULL,           // Process handle not inheritable
+          NULL,           // Thread handle not inheritable
+          FALSE,          // Set handle inheritance to FALSE
+          0,              // No creation flags
+          NULL,           // Use parent's environment block
+          NULL,           // Use parent's starting directory
+          &si,            // Pointer to STARTUPINFO structure
+          &pi             // Pointer to PROCESS_INFORMATION structure
+          ) == 0)
+  {
+    DWORD error = GetLastError();
+    printf("CreateProcess failed with error: %lu\n", error);
+  }
+
+  CloseHandle(pi.hProcess);
+  CloseHandle(pi.hThread);
+}
+
 int main()
 {
   char dslrboothPath[MAX_PATH] = "";
@@ -75,18 +108,13 @@ int main()
   {
     ShellExecute(NULL, "open", dslrboothPath, NULL, NULL, SW_SHOWDEFAULT);
 
-    const char *message = "Apakah proses setup DSLRBooth ini sudah selesai? \n\nKlik 'Ya' untuk membuka aplikasi pembayaran.\nKlik 'Tidak' untuk membatalkan setup.";
+    const char *message = "Apakah proses setup DSLRBooth ini sudah selesai? \n\nKlik 'Yes' untuk membuka aplikasi pembayaran.\nKlik 'No' untuk membatalkan setup.\n\nMohon tunggu hingga aplikasi DSLRBooth terbuka.";
     const char *title = "Konfirmasi Setup DSLRBooth";
 
     int result = ShowCustomMessageBox(message, title);
-
     if (result == IDNO)
     {
-      HWND hwnd = FindWindow(NULL, "DSLRBooth"); // Replace with actual window title
-      if (hwnd != NULL)
-      {
-        SendMessage(hwnd, WM_CLOSE, 0, 0);
-      }
+      killProcessInBackground("dslrBooth.exe");
       return 0;
     }
 
