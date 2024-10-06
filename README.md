@@ -5,7 +5,7 @@ This is a simple script that allows you to launch a program with a specific work
 ## Usage
 
 1. Run the `make build` to build the script
-2. Just double click the `dslrbooth_launcer.exe`
+2. Just double-click the `dslrbooth_launcer.exe`
 3. Happy testing!
 
 ## Result
@@ -18,3 +18,7 @@ This is a simple script that allows you to launch a program with a specific work
 
 3. Check the hidden background process
 ![3. Check the hidden background process](./images/3.%20Check%20background%20process%20from%20app.png)
+
+### Demo
+
+https://github.com/user-attachments/assets/fc2bba83-b294-417f-8320-83a62b7d2e73
