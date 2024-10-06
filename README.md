@@ -4,7 +4,9 @@ This is a simple script that allows you to launch a program with a specific work
 
 ## Usage
 
-Just double click the `dslrbooth_launcer.exe`
+1. Run the `make build` to build the script
+2. Just double click the `dslrbooth_launcer.exe`
+3. Happy testing!
 
 ## Result
 
